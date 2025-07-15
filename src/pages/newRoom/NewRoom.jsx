@@ -1,42 +1,12 @@
-import "./new.scss";
+import "./newRoom.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
-import axios from "axios";
 
-const New = ({ inputs, title }) => {
+const NewRoom = ({ inputs, title }) => {
   const [file, setFile] = useState("");
-  const [info, setInfo] = useState({})
 
-  const handChange = (e) => {
-    setInfo(prev => ({ ...prev, [e.target.id]: e.target.value }))
-  }
-
-  const handleClick = async (e) => {
-    e.preventDefault()
-    const data = new FormData()
-    data.append("file", file)
-    data.append("upload_preset", "bookingApp")
-
-    try {
-      const res = await axios.post(
-        'https://api.cloudinary.com/v1_1/dl4in7cwc/image/upload',
-        data
-      );
-      console.log('Uploaded:', res.data.secure_url);
-      const imageURL = res.data.secure_url;
-
-      const newUser = {
-        ...info,
-        img: imageURL
-      }
-
-      await axios.post("http://localhost:8800/api/auth/register", newUser)
-    } catch (err) {
-      console.error('Upload error:', err);
-    }
-  }
   return (
     <div className="new">
       <Sidebar />
@@ -73,13 +43,10 @@ const New = ({ inputs, title }) => {
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input onChange={handChange}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    id={input.id} />
+                  <input type={input.type} placeholder={input.placeholder} />
                 </div>
               ))}
-              <button onClick={handleClick}>Send</button>
+              <button>Send</button>
             </form>
           </div>
         </div>
@@ -88,4 +55,4 @@ const New = ({ inputs, title }) => {
   );
 };
 
-export default New;
+export default NewRoom;
