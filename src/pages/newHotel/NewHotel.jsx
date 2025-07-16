@@ -51,6 +51,7 @@ const NewHotel = () => {
       };
 
       await axios.post(`${process.env.REACT_APP_API}/hotels`, newhotel);
+      await axios.post("http://localhost:8800/api/hotels", newhotel, { withCredentials: true });
     } catch (err) { console.log(err) }
   };
 
