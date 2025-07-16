@@ -24,7 +24,7 @@ const Login = () => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("http://localhost:8800/api/auth/login", credentials, {
+      const res = await axios.post(`${process.env.REACT_APP_API}/auth/login`, credentials, {
         withCredentials: true, // ✅ This is what sends/receives cookies
       });
       if (res.data.details.isAdmin) {
