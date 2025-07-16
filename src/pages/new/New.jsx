@@ -4,11 +4,13 @@ import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [info, setInfo] = useState({})
+  const navigate = useNavigate();
 
   const handChange = (e) => {
     setInfo(prev => ({ ...prev, [e.target.id]: e.target.value }))
@@ -34,6 +36,7 @@ const New = ({ inputs, title }) => {
       }
       console.log(process.env.REACT_APP_API);
       await axios.post(`${process.env.REACT_APP_API}/auth/register`, newUser)
+      navigate('/users')
     } catch (err) {
       console.error('Upload error:', err);
     }

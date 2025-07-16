@@ -6,11 +6,14 @@ import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 import { hotelInputs } from "../../formSource";
+import { useNavigate } from "react-router-dom";
 
 const NewHotel = () => {
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
   const [rooms, setRooms] = useState([]);
+
+  const navigate = useNavigate();
 
   const { data, loading } = useFetch(`${process.env.REACT_APP_API}/rooms`);
 
@@ -35,7 +38,7 @@ const NewHotel = () => {
           data.append("file", file);
           data.append("upload_preset", "bookingApp");
           const uploadRes = await axios.post(
-           'https://api.cloudinary.com/v1_1/dl4in7cwc/image/upload',
+            'https://api.cloudinary.com/v1_1/dl4in7cwc/image/upload',
             data
           );
 
@@ -50,8 +53,9 @@ const NewHotel = () => {
         photos: list,
       };
 
-      await axios.post(`${process.env.REACT_APP_API}/hotels`, newhotel);
-      await axios.post("http://localhost:8800/api/hotels", newhotel, { withCredentials: true });
+      await axios.post(`${process.env.REACT_APP_API}/hotels`, newhotel, { withCredentials: true });
+      navigate('/hotels')
+
     } catch (err) { console.log(err) }
   };
 
